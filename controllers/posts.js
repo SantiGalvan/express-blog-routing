@@ -7,13 +7,14 @@ const index = (req, res) => {
         html: () => {
             let html = '<ul>';
 
-            posts.forEach(({ title, image, content, tags }) => {
+            posts.forEach(({ title, image, content, tags, slug }) => {
                 html += `<li>
                     <div>
                         <h2>${title}</h2>
                         <p>${content}</p>
                         <p>${tags.map(tag => `<span>${tag}</span>`).join(' ')}</p>
                         <img width="150" src=${`/imgs/posts/${image}`} />
+                        <a href=${`http://${req.headers.host}/posts/${slug}`} >Visualizza</a>
                     </div>
                 </li>`
             })
@@ -42,6 +43,8 @@ const show = (req, res) => {
                     <h3>${post.title}</h3>
                     <img width="200" src=${`/imgs/posts/${post.image}`} />
                     <p><strong>Ingredienti</strong>: ${post.tags.map(tag => `<span>${tag}</span>`).join(' ')}</p>
+                    <a href=${`http://${req.headers.host}/posts/${post.slug}/download`} >Scarica immagine</a>
+                    <a href=${`http://${req.headers.host}/imgs/posts/${post.image}`} >Visualizza immagine</a>
                 </div >
     `);
             } else {
