@@ -77,13 +77,14 @@ const create = (req, res) => {
 const download = (req, res) => {
     const slug = req.params.slug;
     const post = posts.find(post => post.slug === slug);
+
+    if (!post) {
+        res.status(404).send('File not found.');
+        return;
+    }
     const filePath = path.join(__dirname, `../public/imgs/posts/${post.image}`);
 
-    if (fs.existsSync(filePath)) {
-        res.download(filePath);
-    } else {
-        res.status(404).send('File not found.');
-    }
+    if (fs.existsSync(filePath)) res.download(filePath);
 };
 
 module.exports = {
