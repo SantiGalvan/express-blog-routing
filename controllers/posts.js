@@ -63,7 +63,19 @@ const show = (req, res) => {
     })
 };
 
+const create = (req, res) => {
+    res.format({
+        html: () => {
+            res.send('<h1>Creazione nuovo post</h1>');
+        },
+        default: () => {
+            res.status(406).send('<h1>Non accessibile</h1>')
+        }
+    });
+}
+
 module.exports = {
     index,
-    show
+    show,
+    create
 }
