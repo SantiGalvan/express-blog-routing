@@ -42,16 +42,18 @@ const show = (req, res) => {
                     <h3>${post.title}</h3>
                     <img width="200" src=${`/imgs/posts/${post.image}`} />
                     <p><strong>Ingredienti</strong>: ${post.tags.map(tag => `<span>${tag}</span>`).join(' ')}</p>
-                </div>
-                `);
+                </div >
+    `);
             } else {
-                res.status(404).send(`<h1>Post non trovato</h1>`);
+                res.status(404).send(`< h1 > Post non trovato</h1 > `);
             }
         },
         json: () => {
             if (post) {
                 res.json({
-                    ...post
+                    ...post,
+                    image_url: `http://${req.headers.host}/imgs/posts/${post.image}`,
+                    image_download_url: `http://${req.headers.host}/posts/${post.slug}/download`
                 });
             } else {
                 res.status(404).json({
