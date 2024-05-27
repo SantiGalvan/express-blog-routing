@@ -30,6 +30,40 @@ const index = (req, res) => {
     });
 };
 
+const show = (req, res) => {
+    const slug = req.params.slug;
+    const post = posts.find(post => post.slug === slug);
+
+    res.format({
+        html: () => {
+            if (post) {
+                res.send(`
+                <div>
+                    <h3>${post.title}</h3>
+                    <img width="200" src=${`/imgs/posts/${post.image}`} />
+                    <p><strong>Ingredienti</strong>: ${post.tags.map(tag => `<span>${tag}</span>`).join(' ')}</p>
+                </div>
+                `);
+            } else {
+                res.status(404).send(`<h1>Post non trovato</h1>`);
+            }
+        },
+        json: () => {
+            if (post) {
+                res.json({
+                    ...post
+                });
+            } else {
+                res.status(404).json({
+                    error: 'Not found',
+                    description: `Non esiste un post con slug ${slug}`
+                });
+            }
+        }
+    })
+};
+
 module.exports = {
-    index
+    index,
+    show
 }
