@@ -72,10 +72,23 @@ const create = (req, res) => {
             res.status(406).send('<h1>Non accessibile</h1>')
         }
     });
-}
+};
+
+const download = (req, res) => {
+    const slug = req.params.slug;
+    const post = posts.find(post => post.slug === slug);
+    const filePath = path.join(__dirname, `../public/imgs/posts/${post.image}`);
+
+    if (fs.existsSync(filePath)) {
+        res.download(filePath);
+    } else {
+        res.status(404).send('File not found.');
+    }
+};
 
 module.exports = {
     index,
     show,
-    create
+    create,
+    download
 }
